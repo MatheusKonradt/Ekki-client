@@ -1,0 +1,9 @@
+{
+  "home_account_balance_presentation": "**<%= userName %>**, seu balanço atual é",
+  "home_creadit_card_debit_presentation": "A fatura do seu cartão de crédito é",
+  "home_credit_card_limit_presentation": "Restam **<%= limit %>** de limite",
+  "home_credit_card_not_found": "Você não possui um cartão de credito ativo.",
+  "home_trasnfer_amount_presentation": "Tranferencias este mês",
+  "activity_transfer_sent_text": "Você enviou **<%= transferAmount %>** para **<%= targetUserName %>**",
+  "activity_transfer_received_text": "Você recebeu **<%= transferAmount %>** de **<%= targetUserName %>**"
+}

@@ -1,0 +1,57 @@
+@import "color"
+
+.view
+  height: 100vh
+  overflow-x: hidden
+  overflow-y: scroll
+  background: #1e5799
+  background: -moz-linear-gradient(top, #1e5799 1%, #1e5799 14%, #2989d8 58%, #7db9e8 100%)
+  background: -webkit-linear-gradient(top, #1e5799 1%,#1e5799 14%,#2989d8 58%,#7db9e8 100%)
+  background: linear-gradient(to bottom, #1e5799 1%,#1e5799 14%,#2989d8 58%,#7db9e8 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 )
+
+.bank-view
+  position: absolute
+  padding-top: 56px
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  overflow-y: scroll
+  background: white
+
+.login-view
+
+  .grid-container
+    height: 100%
+
+  .center-column
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    text-align: center
+
+    .container
+      display: flex
+      flex-direction: column
+
+      &.-end
+        justify-content: flex-end
+        height: 40%
+
+      &.-start
+        justify-content: flex-start
+        height: 60%
+
+    .input-login
+      width: 100%
+
+    .button-login
+      width: 100%
+      display: flex
+      flex-direction: row
+      padding: 15px
+
+      .button-icon
+        margin: 0 10px
+        float: right

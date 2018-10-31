@@ -1,0 +1,38 @@
+@import "color"
+
+h1, h2, h3, h4, h5, h6
+  color: $colorText!important
+
+.main-logo
+  font-family: 'Roboto', sans-serif
+  color: $colorText
+  display: inline-block
+
+.balance-display
+  font-size: 2em
+
+  &.-positive
+    color: $colorSuccess
+
+  &.-negative
+    color: $colorFailure
+
+
+.-padded
+  padding: 20px 10px 30px 10px
+
+.top-card-icon
+  position: absolute
+  margin-top: -10px
+  color: $colorSecondary
+
+.lang-text
+  p
+    margin: 5px 0
+
+
+.activity-list
+  padding: 0!important
+
+  .activity-list-item
+    background: white

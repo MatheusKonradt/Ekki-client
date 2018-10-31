@@ -1,0 +1,24 @@
+$fadingSlideAnimationTime: 0.3s
+$fadingSlideAnimationLength: 100px
+
+.fading-slide
+
+  &-exit
+    position: relative
+    transform: translateY($fadingSlideAnimationLength)
+    opacity: 0
+    transition: transform $fadingSlideAnimationTime, opacity $fadingSlideAnimationTime
+
+  &-exit-done
+    display: none
+
+  &-enter
+    transform: translateY($fadingSlideAnimationLength)
+    opacity: 0
+
+  &-enter-done
+    transform: translateY(0)
+    opacity: 1
+    transition: transform $fadingSlideAnimationTime, opacity $fadingSlideAnimationTime
+
+
