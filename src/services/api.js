@@ -12,7 +12,7 @@ export function api() {
   }
 
   return axios.create({
-    baseURL: 'http://192.168.0.10:4050/',
+    baseURL: 'https://ekki-api.konradt.co/',
     timeout: 30000,
     headers,
   });
