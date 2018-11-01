@@ -40,6 +40,13 @@ class User {
       User.X_AUTH = token;
     }
   }
+
+  static signOff() {
+    User.CURRENT = null;
+    User.X_AUTH = null;
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }
 }
 
 export default User;

@@ -59,6 +59,10 @@ class Login extends Component {
   }
 
   renderEmailView() {
+    if (User.getAuthenticatedUserInstance()) {
+      return this.goToBankZone();
+    }
+
     const onSubmit = async (email) => {
       try {
         this.setState({loading: true, error: false});

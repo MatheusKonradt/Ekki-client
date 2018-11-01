@@ -17,17 +17,9 @@ class Lang extends Component {
     return template(params);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: props.name,
-      params: props.params
-    }
-  }
-
   render() {
     return (
-      <ReactMarkdown className="lang-text" source={Lang.getText(this.state.name, this.state.params)} />
+      <ReactMarkdown className="lang-text" source={Lang.getText(this.props.text, this.props.params)} />
     )
   }
 }

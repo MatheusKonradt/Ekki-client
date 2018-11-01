@@ -1,7 +1,7 @@
 import axios from 'axios';
 import User from './User';
 
-function api() {
+export function api() {
   const headers = {};
 
   const user = User.getAuthenticatedUserInstance();
@@ -71,4 +71,19 @@ export async function getCardByUserId(userId) {
 export async function createCardForUser(userId) {
   const { data } = await api().post('/cards', { userId });
   return data.resources.card;
+}
+
+export async function listUsers(next) {
+  const { data } = await api().get('/users');
+  return data.resources.users;
+}
+
+export async function createTransfer(transfer) {
+  const { data } = await api().post('/transfers', transfer);
+  return data.resources.transfer;
+}
+
+export async function listTransfersByUserId(userId) {
+  const { data } = await api().get(`/transfers/user/${userId}`);
+  return data.resources.transfers;
 }

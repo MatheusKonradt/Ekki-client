@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,33 +7,32 @@ import Typography from '@material-ui/core/Typography';
 import EkkiMenu from '../components/Menu';
 import HomeView from "./bank/Home";
 import ActivitiesView from "./bank/Activities";
+import UsersView from "./bank/Users";
 import Avatar from '@material-ui/core/Avatar';
-
+import User from '../services/User';
 import '../styles/main.sass';
+import Button from "@material-ui/core/Button/Button";
 
 class Home extends Component {
-
-  constructor(props) {
-    super(props);
-    this.lastLocationValue = 0;
-    this.state = {
-
-    };
+  signOff() {
+    User.signOff();
+    this.props.history.push('/');
   }
 
-  handleChange = (event, currentTab) => {
-    this.setState({ currentTab });
-  };
-
   renderWithTransition({ location }) {
+    const user = User.getAuthenticatedUserInstance();
+    console.log(user);
+    const avatar = user.displayName.split(' ').slice(0, 2).map(n => n.charAt(0)).join('').toUpperCase();
+
     return (
       <div className="view">
         <AppBar position="fixed" color="primary">
           <Toolbar>
-            <Avatar className="">JD</Avatar>
+            <Avatar className="header-avatar">{avatar}</Avatar>
             <Typography variant="h6" color="inherit">
-              Ekki
+              {user.displayName}
             </Typography>
+            <Button className="exit-button" onClick={this.signOff.bind(this)}>sair</Button>
           </Toolbar>
         </AppBar>
         <TransitionGroup>
@@ -46,6 +45,7 @@ class Home extends Component {
               <Switch location={location}>
                 <Route path="/bank/home" component={HomeView}/>
                 <Route path="/bank/activities" component={ActivitiesView}/>
+                <Route path="/bank/contacts" component={UsersView}/>
               </Switch>
             </div>
           </CSSTransition>
@@ -56,9 +56,12 @@ class Home extends Component {
   }
 
   render() {
+    if (!User.getAuthenticatedUserInstance()) {
+      return <Redirect to='/' />;
+    }
     return (
       <Router>
-        <Route render={this.renderWithTransition}/>
+        <Route render={this.renderWithTransition.bind(this)}/>
       </Router>
     )
   }

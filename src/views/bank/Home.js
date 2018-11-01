@@ -8,6 +8,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import EkkiLogo from "../../components/Logo";
 import EkkiBalanceDisplay from "../../components/BalanceDisplay";
 import EkkiLang from '../../components/Lang';
+import Money from '../../components/Money';
 import User from '../../services/User';
 import * as api from '../../services/api';
 
@@ -45,7 +46,8 @@ class Home extends Component {
   }
 
   render() {
-    const walletAmount = _.get(this.state, 'wallet.amount', 0);
+    const wallet = this.state.wallet || {};
+    const card = this.state.card || {};
     const cardDebit = _.get(this.state, 'card.debit', 0);
     const cardLimit = _.get(this.state, 'card.limit', 0);
     const cardLastingLimit = cardLimit - cardDebit;
@@ -58,8 +60,8 @@ class Home extends Component {
           <Grid item xs={12}>
             <Paper square className="-padded -double-pad-top">
               <MonetizationOnIcon className="top-card-icon" /><br />
-              <EkkiLang name={"home_account_balance_presentation"} params={{userName: User.getAuthenticatedUserInstance().getDisplayName()}}/>
-              <EkkiBalanceDisplay balance={walletAmount}/>
+              <EkkiLang text={"home_account_balance_presentation"} params={{userName: User.getAuthenticatedUserInstance().getDisplayName()}}/>
+              <EkkiBalanceDisplay amount={wallet.amount} currency={wallet.currency}/>
             </Paper>
           </Grid>
 
@@ -68,25 +70,22 @@ class Home extends Component {
               <Grid item xs={12}>
                 <Paper square className="-padded -double-pad-top">
                   <CreditCardIcon className="top-card-icon" /><br />
-                  <EkkiLang name={"home_creadit_card_debit_presentation"}/>
-                  <EkkiBalanceDisplay balance={cardDebit}/>
-                  <EkkiLang name={"home_credit_card_limit_presentation"} params={{limit: cardLastingLimit} />
-                  <br />
-                  <Button variant="contained" color="secondary">Excluir Cartão!</Button>
+                  <EkkiLang text={"home_creadit_card_debit_presentation"}/>
+                  <EkkiBalanceDisplay amount={card.debit} currency={card.currency}/>
+                  <EkkiLang text={"home_credit_card_limit_presentation"} params={{limit: Money.format(cardLastingLimit, card.currency)}}/>
                 </Paper>
               </Grid>
             ) : (
               <Grid item xs={12}>
                 <Paper square className="-padded -double-pad-top">
                   <CreditCardIcon className="top-card-icon" /><br />
-                  <EkkiLang name={"home_credit_card_not_found"}/>
+                  <EkkiLang text={"home_credit_card_not_found"}/>
                   <br />
-                  <Button variant="contained" color="default" onClick={this.createCard()}>Criar Cartão!</Button>
+                  <Button variant="contained" color="default" onClick={this.createCard.bind(this)}>Criar Cartão!</Button>
                 </Paper>
               </Grid>
             )
           }
-
         </Grid>
       </div>
     )

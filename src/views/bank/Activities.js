@@ -1,36 +1,51 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import EkkiActivity from '../../components/Activity';
+import Money from '../../components/Money';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import * as api from '../../services/api';
+import User from '../../services/User';
 
 import '../../styles/main.sass';
+import Button from "@material-ui/core/Button/Button";
 
 class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      activities: [1,2,3,4,5,6,7,8,9,7,8,9]
+      transfers: []
     };
+  }
+
+  componentDidMount() {
+    this.loadTransfersList();
+  }
+
+  async loadTransfersList() {
+    const userId = User.getAuthenticatedUserInstance().id;
+    const transfers = await api.listTransfersByUserId(userId);
+    this.setState({ transfers });
   }
 
   handleChange = (event, currentTab) => {
     this.setState({ currentTab });
   };
 
-  renderActivity(activity) {
+  renderTransfers(transfer) {
+    const type = User.getAuthenticatedUserInstance().id === transfer.fromUserId ? 'SEND' : 'RECEIVED';
+    const label = type === 'SEND' ? `enviados para ${transfer.toUser.displayName}` : `recebidos de ${transfer.fromUser.displayName}`;
     return (
-      <ListItem className="activity-list-item">
+      <ListItem key={transfer._id} className="activity-list-item">
         <Avatar>
-          <ImageIcon />
+          {type === 'SEND' ? (<KeyboardArrowDownIcon style={{color:'red'}}/>) : (<KeyboardArrowUpIcon style={{color:'green'}}/>)}
         </Avatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+        <ListItemText primary={Money.format(transfer.amount, transfer.currency)} secondary={label} />
+        {transfer.allowCreditCardUsage ? (<Button disabled>CARD</Button>) : ''}
       </ListItem>
     )
   }
@@ -39,7 +54,7 @@ class Home extends Component {
     return (
       <div className="view-container">
         <List className="activity-list">
-          {this.state.activities.map(activity => this.renderActivity(activity))}
+          {this.state.transfers.map(transfer => this.renderTransfers(transfer))}
         </List>
       </div>
     )
